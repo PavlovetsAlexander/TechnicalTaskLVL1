@@ -13,7 +13,7 @@ enum HttpMethod: String {
     case delete = "DELETE"
 }
 
-protocol ApiRoutable {
+protocol APIRoutable {
     var url: URL { get }
     var path: String { get }
     var method: HttpMethod { get }
