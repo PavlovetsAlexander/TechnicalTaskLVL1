@@ -12,6 +12,7 @@ protocol URLBuilder {
 }
 
 struct URLBuilderImp: URLBuilder {
+    // MARK: - Methods 
     func build(with route: APIRoutable) throws -> URLRequest {
         let baseUrl = route.url.absoluteString
 
