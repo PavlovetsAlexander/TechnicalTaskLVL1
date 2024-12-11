@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		CE25FEE82D09E7480088DDA6 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE25FEE72D09E7480088DDA6 /* Environment.swift */; };
 		CE25FEEA2D09E7640088DDA6 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE25FEE92D09E7640088DDA6 /* Config.xcconfig */; };
+		CE25FEEE2D09EDB90088DDA6 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE25FEED2D09EDB90088DDA6 /* APIError.swift */; };
+		CE25FEF02D09EE3E0088DDA6 /* ApiRoutable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE25FEEF2D09EE3E0088DDA6 /* ApiRoutable.swift */; };
 		CE9F09152CEF646D00CFA6B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F09142CEF646D00CFA6B5 /* AppDelegate.swift */; };
 		CE9F09172CEF646D00CFA6B5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F09162CEF646D00CFA6B5 /* SceneDelegate.swift */; };
 		CE9F09192CEF646D00CFA6B5 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F09182CEF646D00CFA6B5 /* UserViewController.swift */; };
@@ -19,6 +21,8 @@
 /* Begin PBXFileReference section */
 		CE25FEE72D09E7480088DDA6 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		CE25FEE92D09E7640088DDA6 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		CE25FEED2D09EDB90088DDA6 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		CE25FEEF2D09EE3E0088DDA6 /* ApiRoutable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRoutable.swift; sourceTree = "<group>"; };
 		CE9F09112CEF646D00CFA6B5 /* TechnicalTask-lvl1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TechnicalTask-lvl1.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE9F09142CEF646D00CFA6B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE9F09162CEF646D00CFA6B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +61,15 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
+		CE25FEEC2D09EA980088DDA6 /* NetworkLayer */ = {
+			isa = PBXGroup;
+			children = (
+				CE25FEED2D09EDB90088DDA6 /* APIError.swift */,
+				CE25FEEF2D09EE3E0088DDA6 /* ApiRoutable.swift */,
+			);
+			path = NetworkLayer;
+			sourceTree = "<group>";
+		};
 		CE9F09082CEF646D00CFA6B5 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +89,7 @@
 		CE9F09132CEF646D00CFA6B5 /* TechnicalTask-lvl1 */ = {
 			isa = PBXGroup;
 			children = (
+				CE25FEEC2D09EA980088DDA6 /* NetworkLayer */,
 				CE25FEE62D09E7290088DDA6 /* Config */,
 				CE25FEE52D09E7130088DDA6 /* Core */,
 				CE9F092A2CEF65CA00CFA6B5 /* UserModule */,
@@ -175,7 +189,9 @@
 			files = (
 				CE9F09192CEF646D00CFA6B5 /* UserViewController.swift in Sources */,
 				CE25FEE82D09E7480088DDA6 /* Environment.swift in Sources */,
+				CE25FEF02D09EE3E0088DDA6 /* ApiRoutable.swift in Sources */,
 				CE9F09152CEF646D00CFA6B5 /* AppDelegate.swift in Sources */,
+				CE25FEEE2D09EDB90088DDA6 /* APIError.swift in Sources */,
 				CE9F09172CEF646D00CFA6B5 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
