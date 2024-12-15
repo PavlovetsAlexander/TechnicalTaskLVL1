@@ -29,7 +29,7 @@ struct NetworkManagerImpl: NetworkManager {
             return session.dataTaskPublisher(for: request)
                 .tryMap { output in
                     let httpResponse = output.response as? HTTPURLResponse
-                    guard let httpResponse else {
+                    guard httpResponse != nil else {
                         throw APIError.serverError(message: "code \(String(describing: httpResponse?.statusCode))")
                     }
                     return output.data
