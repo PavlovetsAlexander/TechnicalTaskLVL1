@@ -11,7 +11,7 @@ enum APIError: Error {
     case invalidURL
     case invalidResponse
     case invalidData
-    case decodedError(message: String)
+    case decodedError
     case serverError(message: String)
 
     var errorDescription: String? {
@@ -22,7 +22,7 @@ enum APIError: Error {
             return "Invalid data"
         case .invalidURL:
             return "Invalid URL"
-        case .decodedError(message: let message):
+        case .decodedError:
             return "Decoding error"
         case .serverError(message: let message):
             return message
