@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import Combine
 
 protocol NetworkManager {
-    func request<T: Decodable> (route: APIRoutable) -> AnyPublisher<T, APIError>
+    func request<T: Decodable> (route: APIRoutable,
+                                completion: @escaping (Result<T, Error>) -> Void)
 }
 
 struct NetworkManagerImpl: NetworkManager {
@@ -24,24 +24,31 @@ struct NetworkManagerImpl: NetworkManager {
     }
 
     //MARK: - Methods
-    func request<T>(route: APIRoutable) -> AnyPublisher<T, APIError> where T : Decodable {
+    func request<T>(route: APIRoutable,
+                    completion: @escaping (Result<T, any Error>) -> Void) where T : Decodable {
         do {
             let request = try urlBuilder.build(with: route)
-            return session.dataTaskPublisher(for: request)
-                .tryMap { output in
-                    let httpResponse = output.response as? HTTPURLResponse
-                    guard let httpResponse else {
-                        throw APIError.serverError(message: "code \(String(describing: httpResponse?.statusCode))")
-                    }
-                    return output.data
+            let task = session.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    completion(.failure(APIError.serverError(message: error.localizedDescription)))
+                    return
                 }
-                .decode(type: T.self, decoder: JSONDecoder())
-                .mapError { error in
-                    return APIError.serverError(message: error.localizedDescription)
+
+                guard let data else {
+                    completion(.failure(APIError.serverError(message: "No data received")))
+                    return
                 }
-                .eraseToAnyPublisher()
+
+                do {
+                    let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+                    completion(.success(decodedResponse))
+                } catch {
+                    completion(.failure(APIError.decodedError))
+                }
+            }
+            task.resume()
         } catch {
-            return Fail(error: APIError.invalidResponse).eraseToAnyPublisher()
+            completion(.failure(APIError.invalidResponse))
         }
     }
 }
