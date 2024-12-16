@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class UserTableViewCell: UITableViewCell {
+final class UserTableViewCell: UITableViewCell, Reusable {
     // MARK: - GUI Properties
 
     // MARK: - Initialization
@@ -23,5 +23,9 @@ final class UserTableViewCell: UITableViewCell {
     // MARK: - Methods
     private func setupCell() {
 
+    }
+
+    func configure(with model: UserModel) {
+        print(">>> \(Self.self) \(#function) model: \(model)")
     }
 }
