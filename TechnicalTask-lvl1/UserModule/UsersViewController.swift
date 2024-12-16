@@ -13,7 +13,9 @@ class UsersViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.backgroundColor = .red
+        tableView.backgroundColor = .white
+        tableView.register(UserTableViewCell.self,
+                           forCellReuseIdentifier: UserTableViewCell.reuseIdentifier)
         return tableView
     }()
 
@@ -36,12 +38,14 @@ class UsersViewController: UIViewController {
     private func bind() {
         viewModel.users
             .dropFirst()
+            .receive(on: DispatchQueue.main)
             .sink { _ in
             } receiveValue: { [weak tableView] _ in
                 tableView?.reloadData()
             }.store(in: &store)
 
         viewModel.errorMessage
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] message in
                 guard let self else { return }
                 self.showErrorAlert(message: message)
@@ -76,7 +80,13 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.reuseIdentifier,
+                                                       for: indexPath) as? UserTableViewCell else {
+            return UITableViewCell()
+        }
+        let userModel = viewModel.getUserModels(at: indexPath.row)
+        cell.configure(with: userModel)
+        return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
