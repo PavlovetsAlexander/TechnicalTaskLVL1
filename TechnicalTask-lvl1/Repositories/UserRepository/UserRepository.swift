@@ -12,10 +12,9 @@ protocol UserRepository {
     func fetchUsers() -> AnyPublisher<[UserModel], APIError>
 }
 
-struct userRepositoryImp: UserRepository {
+struct UserRepositoryImpl: UserRepository {
     // MARK: - Properties
     private var networkManager: NetworkManager
-    private var userRoute: UserRoute = .getUsers()
 
     // MARK: - Initialization
     init(networkManager: NetworkManager) {
@@ -23,6 +22,7 @@ struct userRepositoryImp: UserRepository {
     }
 
     func fetchUsers() -> AnyPublisher<[UserModel], APIError> {
-        networkManager.request(route: userRoute).eraseToAnyPublisher()
+        let route = UserRoute.getUsers()
+        return networkManager.request(route: route).eraseToAnyPublisher()
     }
 }

@@ -7,7 +7,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = UserViewController()
+
+        let urlBuilder = URLBuilderImp()
+        let networkManager = NetworkManagerImpl(urlBuilder: urlBuilder)
+        let userRepository = UserRepositoryImpl(networkManager: networkManager)
+        let viewModel = UsersViewModelImpl(userRepository: userRepository)
+        window?.rootViewController = UsersViewController(viewModel: viewModel)
         window?.makeKeyAndVisible()
     }
 }
