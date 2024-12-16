@@ -23,6 +23,7 @@
 		CE9F091E2CEF647100CFA6B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE9F091D2CEF647100CFA6B5 /* Assets.xcassets */; };
 		CE9F09212CEF647100CFA6B5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = CE9F09202CEF647100CFA6B5 /* Base */; };
 		CED475202D101C5A00AB3ED1 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED4751F2D101C5A00AB3ED1 /* UserTableViewCell.swift */; };
+		CED475232D101CFC00AB3ED1 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED475222D101CFC00AB3ED1 /* Reusable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		CE9F09202CEF647100CFA6B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE9F09222CEF647100CFA6B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CED4751F2D101C5A00AB3ED1 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		CED475222D101CFC00AB3ED1 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +140,7 @@
 		CE9F09132CEF646D00CFA6B5 /* TechnicalTask-lvl1 */ = {
 			isa = PBXGroup;
 			children = (
+				CED475212D101CF200AB3ED1 /* Helpers */,
 				CE25FEF42D09FFD30088DDA6 /* Repositories */,
 				CE25FEEC2D09EA980088DDA6 /* NetworkLayer */,
 				CE25FEE62D09E7290088DDA6 /* Config */,
@@ -175,6 +178,14 @@
 				CED4751F2D101C5A00AB3ED1 /* UserTableViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		CED475212D101CF200AB3ED1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CED475222D101CFC00AB3ED1 /* Reusable.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,6 +265,7 @@
 				CED475202D101C5A00AB3ED1 /* UserTableViewCell.swift in Sources */,
 				CE25FEF32D09EF910088DDA6 /* URLBuilder.swift in Sources */,
 				CE523C122D0F3F8B005F8734 /* UserRepository.swift in Sources */,
+				CED475232D101CFC00AB3ED1 /* Reusable.swift in Sources */,
 				CE25FEE82D09E7480088DDA6 /* Environment.swift in Sources */,
 				CE25FEF02D09EE3E0088DDA6 /* ApiRoutable.swift in Sources */,
 				CE25FEF62D09FFE80088DDA6 /* NetworkManager.swift in Sources */,
