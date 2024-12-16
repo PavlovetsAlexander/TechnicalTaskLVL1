@@ -22,6 +22,7 @@
 		CE9F09192CEF646D00CFA6B5 /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9F09182CEF646D00CFA6B5 /* UsersViewController.swift */; };
 		CE9F091E2CEF647100CFA6B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE9F091D2CEF647100CFA6B5 /* Assets.xcassets */; };
 		CE9F09212CEF647100CFA6B5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = CE9F09202CEF647100CFA6B5 /* Base */; };
+		CED475202D101C5A00AB3ED1 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED4751F2D101C5A00AB3ED1 /* UserTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		CE9F091D2CEF647100CFA6B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE9F09202CEF647100CFA6B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE9F09222CEF647100CFA6B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CED4751F2D101C5A00AB3ED1 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,11 +161,20 @@
 		CE9F092A2CEF65CA00CFA6B5 /* UserModule */ = {
 			isa = PBXGroup;
 			children = (
+				CED4751E2D101C4800AB3ED1 /* Views */,
 				CE523C4D2D0F47C3005F8734 /* ViewModel */,
 				CE523C4A2D0F41D2005F8734 /* Model */,
 				CE9F09182CEF646D00CFA6B5 /* UsersViewController.swift */,
 			);
 			path = UserModule;
+			sourceTree = "<group>";
+		};
+		CED4751E2D101C4800AB3ED1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CED4751F2D101C5A00AB3ED1 /* UserTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,6 +251,7 @@
 				CE523C142D0F3F92005F8734 /* UserRoute.swift in Sources */,
 				CE523C4F2D0F47D7005F8734 /* UsersViewModel.swift in Sources */,
 				CE9F09192CEF646D00CFA6B5 /* UsersViewController.swift in Sources */,
+				CED475202D101C5A00AB3ED1 /* UserTableViewCell.swift in Sources */,
 				CE25FEF32D09EF910088DDA6 /* URLBuilder.swift in Sources */,
 				CE523C122D0F3F8B005F8734 /* UserRepository.swift in Sources */,
 				CE25FEE82D09E7480088DDA6 /* Environment.swift in Sources */,
