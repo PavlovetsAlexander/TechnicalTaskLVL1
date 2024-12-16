@@ -13,6 +13,7 @@ protocol UsersViewModel {
     var errorMessage: PassthroughSubject<String?, Never> { get }
     func getUsers()
     func numberOfRows() -> Int
+    func getUserModels(at index: Int) -> UserModel
 }
 
 final class UsersViewModelImpl: UsersViewModel {
@@ -44,5 +45,9 @@ final class UsersViewModelImpl: UsersViewModel {
 
     func numberOfRows() -> Int {
         users.value.count
+    }
+
+    func getUserModels(at index: Int) -> UserModel {
+        users.value[index]
     }
 }
