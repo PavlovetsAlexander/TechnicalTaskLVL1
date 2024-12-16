@@ -36,11 +36,11 @@ struct NetworkManagerImpl: NetworkManager {
                 }
                 .decode(type: T.self, decoder: JSONDecoder())
                 .mapError { error in
-                    return APIError.serverError(message: error.localizedDescription)
+                    return APIError.connectionError(message: error.localizedDescription)
                 }
                 .eraseToAnyPublisher()
         } catch {
-            return Fail(error: APIError.invalidResponse).eraseToAnyPublisher()
+            return Fail(error: APIError.invalidRequest(message: error.localizedDescription)).eraseToAnyPublisher()
         }
     }
 }
