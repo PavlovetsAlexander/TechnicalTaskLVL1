@@ -24,6 +24,7 @@
 		CE9F09212CEF647100CFA6B5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = CE9F09202CEF647100CFA6B5 /* Base */; };
 		CED475202D101C5A00AB3ED1 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED4751F2D101C5A00AB3ED1 /* UserTableViewCell.swift */; };
 		CED475232D101CFC00AB3ED1 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED475222D101CFC00AB3ED1 /* Reusable.swift */; };
+		CED4756C2D10692200AB3ED1 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED4756B2D10692200AB3ED1 /* UIView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		CE9F09222CEF647100CFA6B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CED4751F2D101C5A00AB3ED1 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		CED475222D101CFC00AB3ED1 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
+		CED4756B2D10692200AB3ED1 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 		CE9F09132CEF646D00CFA6B5 /* TechnicalTask-lvl1 */ = {
 			isa = PBXGroup;
 			children = (
+				CED4756A2D10691000AB3ED1 /* Extensions */,
 				CED475212D101CF200AB3ED1 /* Helpers */,
 				CE25FEF42D09FFD30088DDA6 /* Repositories */,
 				CE25FEEC2D09EA980088DDA6 /* NetworkLayer */,
@@ -186,6 +189,14 @@
 				CED475222D101CFC00AB3ED1 /* Reusable.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		CED4756A2D10691000AB3ED1 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CED4756B2D10692200AB3ED1 /* UIView+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +272,7 @@
 			files = (
 				CE523C142D0F3F92005F8734 /* UserRoute.swift in Sources */,
 				CE523C4F2D0F47D7005F8734 /* UsersViewModel.swift in Sources */,
+				CED4756C2D10692200AB3ED1 /* UIView+Extension.swift in Sources */,
 				CE9F09192CEF646D00CFA6B5 /* UsersViewController.swift in Sources */,
 				CED475202D101C5A00AB3ED1 /* UserTableViewCell.swift in Sources */,
 				CE25FEF32D09EF910088DDA6 /* URLBuilder.swift in Sources */,
