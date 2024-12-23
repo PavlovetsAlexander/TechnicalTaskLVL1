@@ -51,7 +51,7 @@ class UsersViewController: UIViewController {
                 self.showErrorAlert(message: message)
             }.store(in: &store)
 
-        viewModel.getUsers()
+        viewModel.loadUsers()
     }
 
     private func setupConstraints() {
