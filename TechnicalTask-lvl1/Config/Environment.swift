@@ -11,10 +11,12 @@ struct Environment {
     // MARK: - Constants
     private enum EnvironmentVariable: String {
         case baseURL = "BASE_URL"
+        case dataModelName = "DATAMODEL_NAME"
     }
 
     // MARK: - Properties
     static let baseURL = stringKey(for: .baseURL)
+    static let dataModelName = stringKey(for: .dataModelName)
 
     // MARK: - Methods
     private static let infoDictionary: [String: Any] = Bundle.main.infoDictionary ?? [:]

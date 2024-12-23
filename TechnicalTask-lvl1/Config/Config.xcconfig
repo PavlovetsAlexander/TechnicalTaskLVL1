@@ -9,3 +9,4 @@
 // https://help.apple.com/xcode/#/dev745c5c974
 
 BASE_URL = https:/$()/jsonplaceholder.typicode.com
+DATAMODEL_NAME = UserModel
