@@ -15,6 +15,7 @@ protocol UsersViewModel {
     func saveLocalUsers(user: UserModel)
     func numberOfRows() -> Int
     func getUserModels(at index: Int) -> UserModel
+    func deleteUser(at index: Int)
 }
 
 final class UsersViewModelImpl: UsersViewModel {
@@ -53,6 +54,16 @@ final class UsersViewModelImpl: UsersViewModel {
             }
 
         let remoteUsersPublisher = userRepositoryManager.loadRemoteUsers()
+            .flatMap { [weak self] users -> AnyPublisher<[UserModel], Never> in
+                guard let self else { return Just(users).eraseToAnyPublisher() }
+                return self.userRepositoryManager.saveUsers(users)
+                    .catch { [weak self] error -> Empty<Void, Never> in
+                        self?.errorMessage.send(error.errorDescription)
+                        return .init()
+                    }
+                    .map { users }
+                    .eraseToAnyPublisher()
+            }
             .catch { [weak self] error -> Empty<[UserModel], Never> in
                 self?.errorMessage.send(error.errorDescription)
                 return .init()
@@ -85,5 +96,16 @@ final class UsersViewModelImpl: UsersViewModel {
 
     func getUserModels(at index: Int) -> UserModel {
         users.value[index]
+    }
+
+    func deleteUser(at index: Int) {
+        let user = getUserModels(at: index)
+        userRepositoryManager.delete(for: user).sink { completed in
+            switch completed {
+            case .failure(let error):
+                self.errorMessage.send(error.localizedDescription)
+            case .finished: break
+            }
+        } receiveValue: { }.store(in: &store)
     }
 }
