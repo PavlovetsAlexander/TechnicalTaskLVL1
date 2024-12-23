@@ -12,14 +12,18 @@ struct UserModel: Codable {
     let name: String
     let username: String
     let email: String?
-    let phone: String?
-    let website: String?
-    let address: Address?
-}
 
-struct Address: Codable {
-    let street: String?
-    let suite: String?
-    let city: String
-    let zipcode: String?
+    init(name: String, username: String, email: String?, id: Int) {
+        self.name = name
+        self.username = username
+        self.email = email
+        self.id = id
+    }
+
+    init(from user: UserEntity) {
+         self.name = user.name
+         self.username = user.username
+         self.email = user.email
+         self.id = user.id
+     }
 }
