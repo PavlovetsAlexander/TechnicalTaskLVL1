@@ -16,16 +16,16 @@ protocol UsersViewModel {
     func getUserModels(at index: Int) -> UserModel
 }
 
-final class UsersViewModelImpl: UsersViewModel {
+final class UsersViewModelImplementation: UsersViewModel {
     // MARK: - Properties
-    private let userRepository: UserRepository
+    private let userRepository: UserLocalRepository
     private var store: Set<AnyCancellable> = []
 
     var users: CurrentValueSubject<[UserModel], Error> = .init([])
     var errorMessage: PassthroughSubject<String?, Never> = .init()
 
     // MARK: - Initialization
-    init(userRepository: UserRepository) {
+    init(userRepository: UserLocalRepository) {
         self.userRepository = userRepository
     }
 

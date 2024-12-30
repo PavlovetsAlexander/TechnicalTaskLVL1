@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum APIError: Error {
+enum RequestError: Error {
     case invalidURL
     case invalidResponse
     case invalidData

@@ -10,7 +10,7 @@ import Combine
 @testable import TechnicalTask_lvl1
 
 class UserRepositoryTests: XCTestCase {
-    var userRepository: UserRepositoryImpl!
+    var userRepository: UserLocalRepositoryImplementation!
     var networkManagerStub: NetworkManagerStub!
     var store: Set<AnyCancellable>!
 
@@ -30,12 +30,12 @@ class UserRepositoryTests: XCTestCase {
             return
         }
 
-        let stubResponse: AnyPublisher<Data, APIError> = Just(encodedData)
-            .setFailureType(to: APIError.self)
+        let stubResponse: AnyPublisher<Data, RequestError> = Just(encodedData)
+            .setFailureType(to: RequestError.self)
             .eraseToAnyPublisher()
 
         networkManagerStub = NetworkManagerStub(mockResponse: stubResponse)
-        userRepository = UserRepositoryImpl(networkManager: networkManagerStub)
+        userRepository = UserLocalRepositoryImplementation(networkManager: networkManagerStub)
     }
 
     override func tearDown() {
@@ -55,7 +55,7 @@ class UserRepositoryTests: XCTestCase {
                 case .finished:
                     break
                 case .failure(let error):
-                    XCTFail("Expected success error: \(error)")
+                    XCTFail("Expected error: \(error)")
                 }
             }, receiveValue: { users in
                 // Then
@@ -71,9 +71,9 @@ class UserRepositoryTests: XCTestCase {
 
     func testFetchUsersFailure() {
         // Given
-        let mockError = APIError.connectionError(message: "Test error")
-        networkManagerStub = NetworkManagerStub(mockResponse: Fail<Data, APIError>(error: mockError).eraseToAnyPublisher())
-        userRepository = UserRepositoryImpl(networkManager: networkManagerStub)
+        let mockError = RequestError.connectionError(message: "Test error")
+        networkManagerStub = NetworkManagerStub(mockResponse: Fail<Data, RequestError>(error: mockError).eraseToAnyPublisher())
+        userRepository = UserLocalRepositoryImplementation(networkManager: networkManagerStub)
 
         let expectation = self.expectation(description: "Fetching users should fail.")
 

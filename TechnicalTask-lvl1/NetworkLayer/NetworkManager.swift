@@ -8,39 +8,35 @@ import Combine
 import Foundation
 
 protocol NetworkManager {
-    func request<T: Decodable> (route: APIRoutable) -> AnyPublisher<T, APIError>
+    func makeRequest<T: Decodable> (request: URLRequest) -> AnyPublisher<T, RequestError>
 }
 
-struct NetworkManagerImpl: NetworkManager {
+struct NetworkManagerImplementation: NetworkManager {
     // MARK: - Properties
     private let session: URLSession
-    private let urlBuilder: URLBuilder
-
+    private let decoder = JSONDecoder()
+    
     // MARK: - Initialization
-    init(session: URLSession = .shared, urlBuilder: URLBuilder) {
+    init(session: URLSession = .shared) {
         self.session = session
-        self.urlBuilder = urlBuilder
     }
-
+    
     //MARK: - Methods
-    func request<T>(route: APIRoutable) -> AnyPublisher<T, APIError> where T : Decodable {
-        do {
-            let request = try urlBuilder.build(with: route)
-            return session.dataTaskPublisher(for: request)
-                .tryMap { output in
-                    let httpResponse = output.response as? HTTPURLResponse
-                    guard httpResponse != nil else {
-                        throw APIError.serverError(message: "code \(String(describing: httpResponse?.statusCode))")
-                    }
-                    return output.data
+    func makeRequest<T>(request: URLRequest) -> AnyPublisher<T, RequestError> where T : Decodable {
+        return session.dataTaskPublisher(for: request)
+            .tryMap { output in
+                guard let httpResponse = output.response as? HTTPURLResponse else {
+                    throw RequestError.serverError(message: "Invalid response format")
                 }
-                .decode(type: T.self, decoder: JSONDecoder())
-                .mapError { error in
-                    return APIError.connectionError(message: error.localizedDescription)
+                guard (200...299).contains(httpResponse.statusCode) else {
+                    throw RequestError.serverError(message: "HTTP error with code: \(httpResponse.statusCode)")
                 }
-                .eraseToAnyPublisher()
-        } catch {
-            return Fail(error: APIError.invalidRequest(message: error.localizedDescription)).eraseToAnyPublisher()
-        }
+                return output.data
+            }
+            .decode(type: T.self, decoder: decoder)
+            .mapError { error in
+                return RequestError.connectionError(message: error.localizedDescription)
+            }
+            .eraseToAnyPublisher()
     }
 }

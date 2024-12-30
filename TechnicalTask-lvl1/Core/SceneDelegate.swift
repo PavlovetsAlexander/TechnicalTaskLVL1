@@ -8,10 +8,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
 
-        let urlBuilder = URLBuilderImp()
-        let networkManager = NetworkManagerImpl(urlBuilder: urlBuilder)
-        let userRepository = UserRepositoryImpl(networkManager: networkManager)
-        let viewModel = UsersViewModelImpl(userRepository: userRepository)
+        let networkManager = NetworkManagerImplementation()
+        let userRepository = UserLocalRepositoryImplementation(networkManager: networkManager)
+        let viewModel = UsersViewModelImplementation(userRepository: userRepository)
         window?.rootViewController = UsersViewController(viewModel: viewModel)
         window?.makeKeyAndVisible()
     }

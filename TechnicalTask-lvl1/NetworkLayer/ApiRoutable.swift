@@ -14,7 +14,7 @@ enum HttpMethod: String {
 }
 
 protocol APIRoutable {
-    var url: URL { get }
+    var url: String { get }
     var path: String { get }
     var method: HttpMethod { get }
     var headers: [String: String]? { get }

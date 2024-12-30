@@ -1,7 +1,7 @@
 import UIKit
 import Combine
 
-class UsersViewController: UIViewController {
+final class UsersViewController: UIViewController {
     // MARK: - Properties
     private var viewModel: UsersViewModel
     private var store: Set<AnyCancellable> = []

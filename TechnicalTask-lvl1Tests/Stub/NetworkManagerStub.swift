@@ -10,24 +10,24 @@ import Combine
 @testable import TechnicalTask_lvl1
 
 final class NetworkManagerStub: NetworkManager {
-    private var mockResponse: AnyPublisher<Data, APIError>
+    private var mockResponse: AnyPublisher<Data, RequestError>
 
     // MARK: - Initialization
-    init(mockResponse: AnyPublisher<Data, APIError>) {
+    init(mockResponse: AnyPublisher<Data, RequestError>) {
         self.mockResponse = mockResponse
     }
 
     // MARK: - Methods
-    func request<T>(route: APIRoutable) -> AnyPublisher<T, APIError> where T: Decodable {
+    func request<T>(route: APIRoutable) -> AnyPublisher<T, RequestError> where T: Decodable {
         return mockResponse
             .tryMap { data in
                 guard let decodedResponse = try? JSONDecoder().decode(T.self, from: data) else {
-                    throw APIError.decodedError(message: "decoding error")
+                    throw RequestError.decodedError(message: "decoding error")
                 }
                 return decodedResponse
             }
             .mapError { error in
-                return APIError.connectionError(message: error.localizedDescription)
+                return RequestError.connectionError(message: error.localizedDescription)
             }
             .eraseToAnyPublisher()
     }
