@@ -33,100 +33,107 @@ final class CoreDataManagerImplementation: CoreDataManager {
 
     // MARK: - Methods
     func saveUser(_ user: UserModel) -> AnyPublisher<Void, CoreDataError> {
-        Future { [weak self] promise in
-            guard let self else {
-                promise(.failure(CoreDataError.contextFail))
-                return
-            }
+        Deferred {
+            return  Future { [weak self] promise in
+                guard let self else {
+                    promise(.failure(CoreDataError.contextFail))
+                    return
+                }
 
-            self.childContext.perform {
-                let object = UserEntity(context: self.childContext)
-                object.name = user.name
-                object.username = user.username
-                object.email = user.email ?? ""
+                self.childContext.perform {
+                    let object = UserEntity(context: self.childContext)
+                    object.name = user.name
+                    object.username = user.username
+                    object.email = user.email ?? ""
 
-                do {
-                    try self.childContext.save()
-                    try self.primaryContext.save()
-                    promise(.success(()))
-                } catch {
-                    promise(.failure(CoreDataError.saveFail))
+                    do {
+                        try self.childContext.save()
+                        try self.primaryContext.save()
+                        promise(.success(()))
+                    } catch {
+                        promise(.failure(CoreDataError.saveFail))
+                    }
                 }
             }
-
         }.eraseToAnyPublisher()
     }
 
     func saveUsers(_ user: [UserModel]) -> AnyPublisher<Void, CoreDataError> {
-        Future { [weak self] promise in
-            guard let self else {
-                promise(.failure(CoreDataError.contextFail))
-                return
-            }
-
-            self.childContext.perform {
-                do {
-                    user.forEach {
-                        let object = UserEntity(context: self.childContext)
-                        object.name = $0.name
-                        object.username = $0.username
-                        object.email = $0.email ?? ""
-                    }
-
-                    try self.childContext.save()
-                    try self.primaryContext.save()
-                    promise(.success(()))
-                } catch {
-                    promise(.failure(CoreDataError.saveFail))
+        Deferred {
+            return Future { [weak self] promise in
+                guard let self else {
+                    promise(.failure(CoreDataError.contextFail))
+                    return
                 }
-            }
 
+                self.childContext.perform {
+                    do {
+                        user.forEach {
+                            let object = UserEntity(context: self.childContext)
+                            object.name = $0.name
+                            object.username = $0.username
+                            object.email = $0.email ?? ""
+                        }
+
+                        try self.childContext.save()
+                        try self.primaryContext.save()
+                        promise(.success(()))
+                    } catch {
+                        promise(.failure(CoreDataError.saveFail))
+                    }
+                }
+
+            }
         }.eraseToAnyPublisher()
     }
 
     func loadUsers(predicate: NSPredicate?) -> AnyPublisher<[UserEntity], CoreDataError>{
-        Future { [weak self] promise in
-            guard let self else {
-                promise(.failure(CoreDataError.contextFail))
-                return
-            }
+        Deferred {
+            return Future { [weak self] promise in
+                guard let self else {
+                    promise(.failure(CoreDataError.contextFail))
+                    return
+                }
 
-            let fetchRequest = NSFetchRequest<UserEntity>(entityName: String(describing: UserEntity.self))
-            fetchRequest.predicate = predicate
+                let fetchRequest = NSFetchRequest<UserEntity>(entityName: String(describing: UserEntity.self))
+                fetchRequest.predicate = predicate
 
-            do {
-                let usersObject = try self.primaryContext.fetch(fetchRequest)
-                promise(.success(usersObject))
-            } catch {
-                promise(.failure(CoreDataError.loadFail))
+                do {
+                    let usersObject = try self.primaryContext.fetch(fetchRequest)
+                    promise(.success(usersObject))
+                } catch {
+                    promise(.failure(CoreDataError.loadFail))
+                }
             }
         }.eraseToAnyPublisher()
     }
 
     func delete(user: String) -> AnyPublisher<Void, CoreDataError> {
-        Future { [weak self] promise in
-            guard let self else {
-                promise(.failure(CoreDataError.deleteFail))
-                return
-            }
+        Deferred {
+            return Future { [weak self] promise in
+                guard let self else {
+                    promise(.failure(CoreDataError.deleteFail))
+                    return
+                }
 
-            self.childContext.perform{
-                let predicate = NSPredicate(format: "name == %@", user)
-                let fetchRequest = NSFetchRequest<UserEntity>(entityName: String(describing: UserEntity.self))
-                fetchRequest.predicate = predicate
+                self.childContext.perform{
+                    let predicate = NSPredicate(format: "name == %@", user)
+                    let fetchRequest = NSFetchRequest<UserEntity>(entityName: String(describing: UserEntity.self))
+                    fetchRequest.predicate = predicate
 
-                do {
-                    guard let userToDelete = try self.childContext.fetch(fetchRequest).first else {
-                        promise(.failure(CoreDataError.deleteFail))
-                        return
+                    do {
+                        guard let userToDelete = try self.childContext.fetch(fetchRequest).first else {
+                            promise(.failure(CoreDataError.deleteFail))
+                            return
+                        }
+
+                        self.childContext.delete(userToDelete)
+
+                        try self.childContext.save()
+                        try self.primaryContext.save()
+                    } catch {
+                        promise(.failure(.deleteFail))
                     }
-
-                    self.childContext.delete(userToDelete)
-
-                    try self.childContext.save()
-                    try self.primaryContext.save()
-                } catch {
-                    promise(.failure(.deleteFail))
                 }
             }
         }.eraseToAnyPublisher()
