@@ -21,12 +21,11 @@ struct NetworkManagerImplementation: NetworkManager {
         self.session = session
     }
     
-    //MARK: - Methods
     func makeRequest<T>(request: URLRequest) -> AnyPublisher<T, RequestError> where T : Decodable {
         return session.dataTaskPublisher(for: request)
             .tryMap { output in
                 guard let httpResponse = output.response as? HTTPURLResponse else {
-                    throw RequestError.serverError(message: "Invalid response format")
+                    throw RequestError.invalidResponse
                 }
                 guard (200...299).contains(httpResponse.statusCode) else {
                     throw RequestError.serverError(message: "HTTP error with code: \(httpResponse.statusCode)")

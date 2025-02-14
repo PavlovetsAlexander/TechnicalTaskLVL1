@@ -11,7 +11,7 @@ enum RequestError: Error {
     case invalidURL
     case invalidResponse
     case invalidData
-    case invalidRequest(message: String)
+    case invalidRequest
     case decodedError(message: String)
     case serverError(message: String)
     case connectionError(message: String)
@@ -30,8 +30,8 @@ enum RequestError: Error {
             return message
         case .connectionError(message: let message):
             return message
-        case .invalidRequest(message: let message):
-            return message
+        case .invalidRequest:
+            return "invalid Request"
         }
     }
 }
