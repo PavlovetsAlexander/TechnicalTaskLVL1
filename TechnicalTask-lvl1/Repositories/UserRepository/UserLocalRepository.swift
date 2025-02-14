@@ -22,12 +22,11 @@ struct UserLocalRepositoryImplementation: UserLocalRepository {
     }
     
     func fetchUsers() -> AnyPublisher<[UserModel], RequestError> {
-        do {
-            let request = try UserRoute.getUsers()
-            return networkManager.makeRequest(request: request)
-        } catch {
-            return Fail(error: RequestError.invalidRequest(message: error.localizedDescription))
+
+        guard let request = try? UserRoute.getUsers() else {
+            return Fail(error: RequestError.invalidRequest)
                 .eraseToAnyPublisher()
         }
+        return networkManager.makeRequest(request: request)
     }
 }
