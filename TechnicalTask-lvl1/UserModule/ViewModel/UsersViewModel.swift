@@ -9,11 +9,11 @@ import Foundation
 import Combine
 
 protocol UsersViewModel {
-    var users: CurrentValueSubject<[UserModel], Error>  { get }
-    var errorMessage: PassthroughSubject<String?, Never> { get }
+    var users: AnyPublisher<[UserModel], Error>  { get }
+    var errorMessage: AnyPublisher<String?, Never> { get }
     func getUsers()
     func numberOfRows() -> Int
-    func getUserModels(at index: Int) -> UserModel
+    func getUserModels(at indexPath: IndexPath) -> UserModel?
 }
 
 final class UsersViewModelImplementation: UsersViewModel {
@@ -21,8 +21,16 @@ final class UsersViewModelImplementation: UsersViewModel {
     private let userRepository: UserLocalRepository
     private var store: Set<AnyCancellable> = []
 
-    var users: CurrentValueSubject<[UserModel], Error> = .init([])
-    var errorMessage: PassthroughSubject<String?, Never> = .init()
+    private var usersSubject: CurrentValueSubject<[UserModel], Error> = .init([])
+    private var errorMessageSubject: PassthroughSubject<String?, Never> = .init()
+
+    var users: AnyPublisher<[UserModel], Error> {
+        usersSubject.eraseToAnyPublisher()
+    }
+
+    var errorMessage: AnyPublisher<String?, Never> {
+        errorMessageSubject.eraseToAnyPublisher()
+    }
 
     // MARK: - Initialization
     init(userRepository: UserLocalRepository) {
@@ -31,23 +39,25 @@ final class UsersViewModelImplementation: UsersViewModel {
 
     // MARK: - Methods
     func getUsers() {
-       userRepository.fetchUsers()
-            .sink { completed in
+        userRepository.fetchUsers()
+            .sink { [weak self] completed in
                 switch completed {
                 case .failure(let error):
-                    self.errorMessage.send(error.errorDescription)
-                case .finished: break
+                    self?.errorMessageSubject.send(error.localizedDescription)
+                case .finished:
+                    break
                 }
-            } receiveValue: { users in
-                self.users.send(users)
-            }.store(in: &store)
+            } receiveValue: { [weak self] users in
+                self?.usersSubject.send(users)
+            }
+            .store(in: &store)
     }
 
     func numberOfRows() -> Int {
-        users.value.count
+        usersSubject.value.count
     }
 
-    func getUserModels(at index: Int) -> UserModel {
-        users.value[index]
+    func getUserModels(at indexPath: IndexPath) -> UserModel? {
+        usersSubject.value[indexPath.row]
     }
 }
