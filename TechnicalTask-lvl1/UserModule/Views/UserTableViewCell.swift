@@ -18,7 +18,7 @@ final class UserTableViewCell: UITableViewCell, Reusable {
     }
 
     // MARK: - GUI Properties
-    private lazy var nameLabel: UILabel = {
+    private var nameLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
@@ -26,7 +26,7 @@ final class UserTableViewCell: UITableViewCell, Reusable {
         return label
     }()
 
-    private lazy var emailLabel: UILabel = {
+    private var emailLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .black
@@ -34,7 +34,7 @@ final class UserTableViewCell: UITableViewCell, Reusable {
         return label
     }()
 
-    private lazy var containerView: UIView = {
+    private var containerView: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = Constants.cornerRadius
@@ -73,7 +73,6 @@ final class UserTableViewCell: UITableViewCell, Reusable {
             emailLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constants.edgeInsets.left),
             emailLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Constants.edgeInsets.bottom)
         ])
-
     }
 
     func configure(with model: UserModel) {
