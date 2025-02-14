@@ -9,7 +9,7 @@ import Foundation
 @testable import TechnicalTask_lvl1
 
 struct APIRouteStub: APIRoutable {
-    var url: URL
+    var url: String
     var path: String
     var method: HttpMethod
     var headers: [String: String]?
@@ -18,7 +18,7 @@ struct APIRouteStub: APIRoutable {
 
     // MARK: - Initialization
     init(
-        url: URL = URL(string: "https://stubapi.com")!,
+        url: String = "http://127.0.0.1/",
         path: String = "/stubEndpoint",
         method: HttpMethod = .get,
         headers: [String: String]? = nil,

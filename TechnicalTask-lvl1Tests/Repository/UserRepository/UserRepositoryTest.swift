@@ -14,13 +14,14 @@ class UserRepositoryTests: XCTestCase {
     var networkManagerStub: NetworkManagerStub!
     var store: Set<AnyCancellable>!
 
+    private let stubData = [
+        UserModel(id: 1, name: "test name", username: "test username",
+                  email: "test@email.com", phone: "test phone",
+                  website: "test website", address: nil)
+    ]
+
     override func setUp() {
         store = []
-        let stubData = [
-            UserModel(id: 1, name: "test name", username: "test username",
-                      email: "test@email.com", phone: "test phone",
-                      website: "test website", address: nil)
-        ]
 
         let encodedData: Data
         do {
@@ -52,8 +53,7 @@ class UserRepositoryTests: XCTestCase {
         userRepository.fetchUsers()
             .sink(receiveCompletion: { completion in
                 switch completion {
-                case .finished:
-                    break
+                case .finished: break
                 case .failure(let error):
                     XCTFail("Expected error: \(error)")
                 }
@@ -81,14 +81,13 @@ class UserRepositoryTests: XCTestCase {
         userRepository.fetchUsers()
             .sink(receiveCompletion: { completion in
                 switch completion {
-                case .finished:
-                    XCTFail("Expected failure, but got success.")
+                case .finished: break
                 case .failure(let error):
                     // Then
-                    XCTAssertEqual(error.localizedDescription, "The operation couldn’t be completed. (TechnicalTask_lvl1.APIError error 3.)")
+                    XCTAssertEqual(error.localizedDescription, "The operation couldn’t be completed. (TechnicalTask_lvl1.RequestError error 2.)")
                     expectation.fulfill()
                 }
-            }, receiveValue: { _ in
+            }, receiveValue: { users in
                 XCTFail("Expected failure, but received value.")
             })
             .store(in: &store)

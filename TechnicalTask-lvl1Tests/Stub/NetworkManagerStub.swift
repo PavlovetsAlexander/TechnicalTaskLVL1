@@ -18,7 +18,7 @@ final class NetworkManagerStub: NetworkManager {
     }
 
     // MARK: - Methods
-    func request<T>(route: APIRoutable) -> AnyPublisher<T, RequestError> where T: Decodable {
+    func makeRequest<T>(request: URLRequest) -> AnyPublisher<T, TechnicalTask_lvl1.RequestError> where T : Decodable {
         return mockResponse
             .tryMap { data in
                 guard let decodedResponse = try? JSONDecoder().decode(T.self, from: data) else {
