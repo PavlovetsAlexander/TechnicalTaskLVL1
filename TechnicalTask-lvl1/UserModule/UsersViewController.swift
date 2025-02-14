@@ -23,19 +23,7 @@ final class UsersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupConstraints()
-        bind()
-    }
 
-    // MARK: - Initialization
-    init(viewModel: UsersViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) { nil }
-
-    // MARK: - Methods
-    private func bind() {
         viewModel.users
             .dropFirst()
             .receive(on: DispatchQueue.main)
@@ -54,6 +42,15 @@ final class UsersViewController: UIViewController {
         viewModel.getUsers()
     }
 
+    // MARK: - Initialization
+    init(viewModel: UsersViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) { nil }
+
+    // MARK: - Methods
     private func setupConstraints() {
         view.addSubview(tableView)
 
@@ -84,7 +81,8 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
                                                        for: indexPath) as? UserTableViewCell else {
             return UITableViewCell()
         }
-        let userModel = viewModel.getUserModels(at: indexPath.row)
+        let userModel = viewModel.getUserModels(at: indexPath)
+        guard let userModel else { return UITableViewCell() }
         cell.configure(with: userModel)
         return cell
     }
